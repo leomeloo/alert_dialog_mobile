@@ -7,12 +7,22 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button simples, checkbox, view;
+    Button simples, checkbox, view, verificarView;
+
     private AlertDialog alerta;
+
+    CheckBox myCheckbox;
+
+    //VAI RECEBER UM LAYOUT "INFLAR UM LAYOUT"
+    View myView;
+
+    boolean check = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,8 +30,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         simples = findViewById(R.id.simples);
-        checkbox = findViewById(R.id.checkbox);
-        view = findViewById(R.id.view);
 
         //AÇÃO DO BOTAO SIMPLES
         simples.setOnClickListener(new View.OnClickListener() {
@@ -33,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        checkbox = findViewById(R.id.checkbox);
         //AÇÃO DO BOTAO CHECKBOX
         checkbox.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,6 +50,69 @@ public class MainActivity extends AppCompatActivity {
                 CarregaMultiplosCheckbox();
             }
         });
+
+        view = findViewById(R.id.view);
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                CarregarAlertView();
+            }
+        });
+
+        verificarView = findViewById(R.id.verificarView);
+
+        verificarView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(check)
+                    Toast.makeText(getApplicationContext(), "Check está selecionado", Toast.LENGTH_LONG).show();
+                else
+                    Toast.makeText(getApplicationContext(), "Check não está selecionado", Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+
+    }
+
+    private void CarregarAlertView() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        myView = getLayoutInflater().inflate(R.layout.layout_alert, null);
+
+        myCheckbox = myView.findViewById(R.id.checkBox1);
+
+        builder.setTitle("CheckBox ");
+        builder.setView(myView);
+
+        check = false;
+
+        myCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                if(isChecked)
+                    check = true;
+                else
+                    check = false;
+            }
+        });
+
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+            }
+        });
+
+        alerta = builder.create();
+        alerta.show();
+
     }
 
     //MÉTODO DO BOTAO CHECKBOX

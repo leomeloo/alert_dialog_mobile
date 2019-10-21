@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Alert Dialog</string>
+    <string name="txtMsg">Selecione ou não o check box e confira o resltado no botao de baixo</string>
+    <string name="txtMsgDaCaixa">Deseja ver novamente está caixa?</string>
 </resources>
